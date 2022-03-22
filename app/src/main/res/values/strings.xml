@@ -2,4 +2,5 @@
     <string name="app_name">Bitcoin Raffle</string>
     <string name="content_description_button_raffle">Find Raffle</string>
     <string name="find_raffle">Find Raffle</string>
+    <string name="test_btc_wallet_address">3JBb9T7H6xKGmtaZvq7pPCr5LTAuocM2Xf</string>
 </resources>
