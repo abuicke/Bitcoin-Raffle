@@ -18,32 +18,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val adapter = UserViewHolderAdapter()
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
-        adapter.users.add(User("https://i.imgur.com/K72XGlf.png",
-            getString(R.string.test_btc_wallet_address)))
+        adapter.users.add(
+            User(
+                "https://i.imgur.com/K72XGlf.png",
+                getString(R.string.test_btc_wallet_address)
+            )
+        )
+        adapter.users.add(
+            User(
+                "https://i.imgur.com/K72XGlf.png",
+                getString(R.string.test_btc_wallet_address)
+            )
+        )
+        adapter.users.add(
+            User(
+                "https://i.imgur.com/K72XGlf.png",
+                getString(R.string.test_btc_wallet_address)
+            )
+        )
         binding.recyclerViewUsers.adapter = adapter
         binding.recyclerViewUsers.layoutManager = LinearLayoutManager(this.baseContext)
     }
