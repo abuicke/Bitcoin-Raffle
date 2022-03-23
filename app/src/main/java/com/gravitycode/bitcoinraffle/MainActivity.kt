@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-data class User(val profilePicUrl: String, val btcWalletAddress: String)
-
 class UserViewHolderAdapter() : RecyclerView.Adapter<UserViewHolder>() {
 
     val users: ArrayList<User> = ArrayList()
