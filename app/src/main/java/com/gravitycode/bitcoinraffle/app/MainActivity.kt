@@ -28,6 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
 
+@Suppress("MemberVisibilityCanBePrivate")
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
