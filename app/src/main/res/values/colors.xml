@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="bitcoin_orange">#ff9900</color>
+    <color name="bitcoin_orange_light">#ee9911</color>
+    <color name="bitcoin_orange_dark">#ee6611</color>
 </resources>

@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gravitycode.bitcoinraffle.R
 import com.gravitycode.bitcoinraffle.databinding.ActivityMainBinding
 import com.gravitycode.bitcoinraffle.home.HomeViewModel
+import com.gravitycode.bitcoinraffle.home.LoginView
 import com.gravitycode.bitcoinraffle.login.LoginViewModel
 import com.gravitycode.bitcoinraffle.raffle.RaffleUiState
 import com.gravitycode.bitcoinraffle.raffle.RaffleViewModel
 import com.gravitycode.bitcoinraffle.settings.SettingsViewModel
+import com.gravitycode.bitcoinraffle.view.IView
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -36,23 +38,27 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        val adapter = ParticipantViewHolderAdapter()
-        binding.recyclerViewParticipants.adapter = adapter
-        binding.recyclerViewParticipants.layoutManager = LinearLayoutManager(this)
+        setContentView(LoginView(layoutInflater))
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                raffleViewModel.uiState.collect { uiState ->
-                    adapter.uiState = uiState
-                    adapter.notifyDataSetChanged()
-                }
-            }
-        }
+//        val adapter = ParticipantViewHolderAdapter()
+//        binding.recyclerViewParticipants.adapter = adapter
+//        binding.recyclerViewParticipants.layoutManager = LinearLayoutManager(this)
+//
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                raffleViewModel.uiState.collect { uiState ->
+//                    adapter.uiState = uiState
+//                    adapter.notifyDataSetChanged()
+//                }
+//            }
+//        }
+//
+//        raffleViewModel.fetchRaffleParticipants()
+    }
 
-        raffleViewModel.fetchRaffleParticipants()
+    fun setContentView(iView: IView) {
+        super.setContentView(iView.contentView)
     }
 }
 
