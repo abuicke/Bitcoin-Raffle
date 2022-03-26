@@ -1,4 +1,4 @@
-package com.gravitycode.bitcoinraffle
+package com.gravitycode.bitcoinraffle.app
 
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +14,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gravitycode.bitcoinraffle.R
 import com.gravitycode.bitcoinraffle.databinding.ActivityMainBinding
+import com.gravitycode.bitcoinraffle.home.HomeViewModel
+import com.gravitycode.bitcoinraffle.login.LoginViewModel
+import com.gravitycode.bitcoinraffle.raffle.RaffleUiState
+import com.gravitycode.bitcoinraffle.raffle.RaffleViewModel
+import com.gravitycode.bitcoinraffle.settings.SettingsViewModel
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -23,7 +29,10 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private val loginViewModel: LoginViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
     private val raffleViewModel: RaffleViewModel by viewModels()
+    private val settingsViewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

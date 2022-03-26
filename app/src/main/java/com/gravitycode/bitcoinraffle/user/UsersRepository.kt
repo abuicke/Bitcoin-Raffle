@@ -1,4 +1,4 @@
-package com.gravitycode.bitcoinraffle
+package com.gravitycode.bitcoinraffle.user
 
 import com.google.common.collect.ImmutableList
 import javax.inject.Inject

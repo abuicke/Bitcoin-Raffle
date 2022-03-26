@@ -1,4 +1,4 @@
-package com.gravitycode.bitcoinraffle
+package com.gravitycode.bitcoinraffle.user
 
 data class User(
     val name: String,

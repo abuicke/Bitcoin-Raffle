@@ -1,7 +1,8 @@
-package com.gravitycode.bitcoinraffle
+package com.gravitycode.bitcoinraffle.raffle
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gravitycode.bitcoinraffle.user.UsersRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
