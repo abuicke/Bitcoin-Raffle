@@ -2,13 +2,16 @@ package com.gravitycode.bitcoinraffle
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RaffleViewModel(
+@HiltViewModel
+class RaffleViewModel @Inject constructor(
     private val usersRepository: UsersRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(RaffleUiState())

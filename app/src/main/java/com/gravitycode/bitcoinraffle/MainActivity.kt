@@ -16,22 +16,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gravitycode.bitcoinraffle.databinding.ActivityMainBinding
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-
-    /**
-     * TODO: Needs to be implemented using dependency injection.
-     * Don't understand how `by viewModels()` is supposed to work.
-     * */
-    private val viewModel: RaffleViewModel = RaffleViewModel(UsersRepository())//by viewModels()
+    private val raffleViewModel: RaffleViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val adapter = ParticipantViewHolderAdapter()
@@ -40,14 +36,14 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { uiState ->
+                raffleViewModel.uiState.collect { uiState ->
                     adapter.uiState = uiState
                     adapter.notifyDataSetChanged()
                 }
             }
         }
 
-        viewModel.fetchRaffleParticipants()
+        raffleViewModel.fetchRaffleParticipants()
     }
 }
 

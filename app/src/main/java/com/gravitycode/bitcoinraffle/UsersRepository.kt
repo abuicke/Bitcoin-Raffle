@@ -1,8 +1,9 @@
 package com.gravitycode.bitcoinraffle
 
 import com.google.common.collect.ImmutableList
+import javax.inject.Inject
 
-class UsersRepository {
+class UsersRepository @Inject constructor() {
 
     fun getAllUsers(): List<User> {
         val builder = ImmutableList.Builder<User>()
