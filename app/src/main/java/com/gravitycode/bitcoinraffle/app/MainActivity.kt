@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         if (loginState == Login.LOGGED_IN) {
             showRaffleView()
         } else {
-            showLoginView()
             waitForLogin()
+            showLoginView()
         }
     }
 
