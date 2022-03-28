@@ -2,8 +2,7 @@ package com.gravitycode.bitcoinraffle.login
 
 import com.gravitycode.bitcoinraffle.util.Strings
 
-data class LoginUiState(
+data class LoginViewEvent(
     val name: String = Strings.EMPTY,
-    val btcWalletAddress: String = Strings.EMPTY,
-    var login: Login = Login.NOT_LOGGED_IN
+    val btcAddress: String = Strings.EMPTY
 )
