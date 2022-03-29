@@ -5,10 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.gravitycode.bitcoinraffle.user.User
 import com.gravitycode.bitcoinraffle.user.UsersRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,13 +14,21 @@ class LoginViewModel @Inject constructor(
     private val usersRepository: UsersRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(LoginUiState())
-    val state: StateFlow<LoginUiState> = _state.asStateFlow()
+    private val _uiStateStream = MutableSharedFlow<LoginUiState>()
+    val uiStateStream: SharedFlow<LoginUiState> = _uiStateStream.asSharedFlow()
 
     fun login(name: String, btcAddress: String) {
         viewModelScope.launch {
-            usersRepository.setLoggedInUser(User(name, btcAddress))
-            _state.emit(LoginUiState(name, btcAddress, Login.LOGGED_IN))
+            val user = User(name, btcAddress)
+            val result = usersRepository.setLoggedInUser(user)
+            if (result.isSuccess) {
+                val uiState = LoginUiState(name, btcAddress, Login.LOGGED_IN)
+                _uiStateStream.emit(uiState)
+            } else {
+                val throwable = result.exceptionOrNull()
+                val uiState = LoginUiState(login = Login.LOGIN_FAILED, error = throwable)
+                _uiStateStream.emit(uiState)
+            }
         }
     }
 }

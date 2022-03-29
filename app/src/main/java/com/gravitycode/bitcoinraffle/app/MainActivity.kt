@@ -2,6 +2,7 @@ package com.gravitycode.bitcoinraffle.app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,6 +17,8 @@ import com.gravitycode.bitcoinraffle.view.IView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.math.BigDecimal
 import javax.inject.Inject
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -43,8 +46,8 @@ class MainActivity : AppCompatActivity() {
         super.setContentView(iView.contentView)
     }
 
-    fun displayError() {
-        Toast.makeText(baseContext, "ERROR!!!!", Toast.LENGTH_LONG).show()
+    fun displayError(errMsg: String) {
+        Toast.makeText(baseContext, errMsg, Toast.LENGTH_LONG).show()
     }
 
     fun showLoginView() {
@@ -68,11 +71,15 @@ class MainActivity : AppCompatActivity() {
     fun waitForLogin() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.state.collect { loginUiState ->
+                loginViewModel.uiStateStream.collect { loginUiState ->
                     when (loginUiState.login) {
                         Login.LOGGED_IN -> showRaffleView()
-                        Login.LOGIN_FAILED -> displayError()
                         Login.NOT_LOGGED_IN -> Unit
+                        Login.LOGIN_FAILED -> {
+                            val errMsg = loginUiState.error?.message
+                            displayError(errMsg ?: "Login Failed")
+                            Timber.w("login failed: $errMsg", loginUiState.error)
+                        }
                     }
                 }
             }
