@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gravitycode.bitcoinraffle.R
 
-class ParticipantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val name: TextView = itemView.findViewById(R.id.text_name)
     val profilePic: ImageView = itemView.findViewById(R.id.img_profile_pic)

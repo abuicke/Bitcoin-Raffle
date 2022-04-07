@@ -2,7 +2,6 @@ package com.gravitycode.bitcoinraffle.app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,20 +11,33 @@ import com.gravitycode.bitcoinraffle.login.GetLoginStateUseCase
 import com.gravitycode.bitcoinraffle.login.Login
 import com.gravitycode.bitcoinraffle.login.LoginView
 import com.gravitycode.bitcoinraffle.login.LoginViewModel
+import com.gravitycode.bitcoinraffle.raffle.Raffle
 import com.gravitycode.bitcoinraffle.raffle.RaffleView
+import com.gravitycode.bitcoinraffle.raffle.RaffleViewModel
 import com.gravitycode.bitcoinraffle.view.IView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.math.BigDecimal
 import javax.inject.Inject
 
+/**
+ * Since ACCESS_FINE_LOCATION, BLUETOOTH_ADVERTISE, BLUETOOTH_CONNECT, BLUETOOTH_SCAN and
+ * READ_EXTERNAL_STORAGE are considered to be dangerous system permissions, in addition to
+ * adding them to your manifest, you must request these permissions at runtime, as described
+ * in Requesting Permissions. https://developer.android.com/training/permissions/requesting.html
+ * If the user does not grant all required permissions for the Strategy you plan to use, the
+ * Nearby Connections API will refuse to allow your app to start advertising or discovering.
+ * */
 @Suppress("MemberVisibilityCanBePrivate")
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val loginViewModel: LoginViewModel by viewModels()
+    private val raffleViewModel: RaffleViewModel by viewModels()
+
+    @Inject lateinit var loginView: LoginView
+    @Inject lateinit var raffleView: RaffleView
 
     @Inject lateinit var getLoginStateUseCase: GetLoginStateUseCase
 
@@ -37,13 +49,13 @@ class MainActivity : AppCompatActivity() {
         if (loginState == Login.LOGGED_IN) {
             showRaffleView()
         } else {
-            waitForLogin()
             showLoginView()
         }
     }
 
     fun setContentView(iView: IView<out Any>) {
-        super.setContentView(iView.contentView)
+        val contentView = iView.getContentView()
+        super.setContentView(contentView)
     }
 
     fun displayError(errMsg: String) {
@@ -51,13 +63,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showLoginView() {
-        val loginView = LoginView(layoutInflater)
+        /**
+         * TODO: This initialization should take place once outside of the `show` logic?
+         * */
         loginView.setEventListener { loginViewEvent ->
             val name = loginViewEvent.name
             val btcAddress = loginViewEvent.btcAddress
             loginViewModel.login(name, btcAddress)
         }
 
+        waitForLogin()
         setContentView(loginView)
     }
 
@@ -69,12 +84,26 @@ class MainActivity : AppCompatActivity() {
      * in an Activity, or onViewCreated in a Fragment."
      * */
     fun waitForLogin() {
-        lifecycleScope.launch {
+        var loginJob: Job? = null
+        loginJob = lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                loginViewModel.uiStateStream.collect { loginUiState ->
+                loginViewModel.uiState.collect { loginUiState ->
                     when (loginUiState.login) {
-                        Login.LOGGED_IN -> showRaffleView()
+                        Login.LOGGED_IN -> {
+                            Timber.i(
+                                "logged in as [${loginUiState.name}, " +
+                                        "${loginUiState.btcWalletAddress}]"
+                            )
+                            showRaffleView()
+                            loginJob!!.cancel()
+                        }
                         Login.NOT_LOGGED_IN -> Unit
+                        Login.LOGIN_IN_PROGRESS -> {
+                            Timber.i(
+                                "logging in as [${loginUiState.name}, " +
+                                        "${loginUiState.btcWalletAddress}]"
+                            )
+                        }
                         Login.LOGIN_FAILED -> {
                             val errMsg = loginUiState.error?.message
                             displayError(errMsg ?: "Login Failed")
@@ -87,6 +116,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showRaffleView() {
-        setContentView(RaffleView(layoutInflater))
+        /**
+         * TODO: This initialization should take place once outside of the `show` logic?
+         * */
+        raffleView.setEventListener { raffleViewEvent ->
+            when (raffleViewEvent.raffle) {
+                Raffle.STARTED -> raffleViewModel.startRaffle()
+                Raffle.FINISHED -> Unit
+            }
+        }
+
+        watchRaffle(raffleView)
+        setContentView(raffleView)
+    }
+
+    fun watchRaffle(raffleView: RaffleView) {
+        /**
+         * TODO: This job should be cancelled when the raffle has finished
+         * */
+        var raffleJob: Job? = null
+        raffleJob = lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                raffleViewModel.uiState.collect { raffleUiState ->
+                    raffleView.displayUsers(raffleUiState.users)
+                }
+            }
+        }
     }
 }

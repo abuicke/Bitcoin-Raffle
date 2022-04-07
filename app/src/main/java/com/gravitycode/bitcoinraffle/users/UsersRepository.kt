@@ -1,13 +1,17 @@
-package com.gravitycode.bitcoinraffle.user
+package com.gravitycode.bitcoinraffle.users
 
 import android.content.SharedPreferences
-import com.google.common.base.Throwables
-import com.google.common.collect.ImmutableList
+import com.google.common.base.Preconditions
+import com.gravitycode.bitcoinraffle.nearby.DiscoverUsersService
 import com.gravitycode.bitcoinraffle.util.Bitcoin
 import com.gravitycode.bitcoinraffle.util.StrictSharedPreferences
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-class UsersRepository @Inject constructor(private val sharedPreferences: SharedPreferences) {
+class UsersRepository @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
+    private val discoverUsersService: DiscoverUsersService
+) {
 
     private companion object {
         const val USERNAME = "signedInUser-name"
@@ -30,9 +34,9 @@ class UsersRepository @Inject constructor(private val sharedPreferences: SharedP
     }
 
     /**
-     * If null then no user is logged in.
+     * @return null if no user is logged in.
      * */
-    fun getLoggedInUser() = loggedInUser
+    fun getLoggedInUser(): User? = loggedInUser
 
     fun setLoggedInUser(user: User): Result<User> {
         val isValidName = user.name.isNotEmpty()
@@ -53,17 +57,20 @@ class UsersRepository @Inject constructor(private val sharedPreferences: SharedP
         }
     }
 
-    fun getAllUsers(): ImmutableList<User> {
-        val builder = ImmutableList.Builder<User>()
-        repeat(20) {
-            builder.add(
-                User(
-                    "Mushroom",
-                    "https://i.imgur.com/K72XGlf.png",
-                    "3JBb9T7H6xKGmtaZvq7pPCr5LTAuocM2Xf"
-                )
-            )
-        }
-        return builder.build()
+    /**
+     * @return All users in the repository (including the logged in user) in no particular order.
+     * @throws IllegalStateException if a logged in user hasn't been set
+     * */
+    fun getAllUsers(): Flow<User> {
+        Preconditions.checkState(
+            loggedInUser != null,
+            "Current user must be logged in. " +
+                    "Use ${javaClass.canonicalName}.setLoggedInUser(User) to set the current user."
+        )
+
+        return merge(
+            MutableStateFlow(loggedInUser!!),
+            discoverUsersService.discoverUsers()
+        )
     }
 }

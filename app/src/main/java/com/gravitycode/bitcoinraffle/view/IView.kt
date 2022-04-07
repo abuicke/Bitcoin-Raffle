@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface IView<T> {
 
-    val contentView: View
+    fun getContentView(): View
 
     fun setEventListener(listener: (T) -> Unit)
 }

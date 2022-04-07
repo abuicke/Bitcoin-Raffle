@@ -1,6 +1,6 @@
 package com.gravitycode.bitcoinraffle.login
 
-import com.gravitycode.bitcoinraffle.user.UsersRepository
+import com.gravitycode.bitcoinraffle.users.UsersRepository
 import javax.inject.Inject
 
 class GetLoginStateUseCase @Inject constructor(private val usersRepository: UsersRepository) {

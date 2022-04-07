@@ -4,6 +4,6 @@
     <string name="name">Name</string>
     <string name="btc_wallet_address">Bitcoin Wallet Address</string>
     <string name="enter">Enter</string>
-    <string name="test_btc_wallet_address">n3RU2WPB6j9MZap7LyoQTqPYg81N1PESPC</string>
-    <string name="test_name">Mushroom</string>
+    <string name="search_for_raffle">Search for Raffle</string>
+    <string name="content_description_search_button">search button</string>
 </resources>

@@ -6,42 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".app.MainActivity">
 
-    <ImageView
-        android:id="@+id/img_raffle_tickets"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/find_raffle"
-        android:src="@drawable/ic_raffle_tickets"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/label_find_raffle"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:text="@string/find_raffle"-->
-    <!--        app:layout_constraintLeft_toLeftOf="@id/img_raffle_tickets"-->
-    <!--        app:layout_constraintRight_toRightOf="@id/img_raffle_tickets"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/img_raffle_tickets" />-->
-
-    <ImageView
-        android:id="@+id/img_wallet"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_margin="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/find_raffle"
-        android:src="@drawable/ic_btc_wallet"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_participants"
+        android:id="@+id/recycler_view_users"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_raffle_tickets" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_search"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/light_gray"
+        android:contentDescription="@string/content_description_search_button"
+        android:src="@android:drawable/ic_menu_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_search_raffle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/press_start_2p"
+        android:text="@string/search_for_raffle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
