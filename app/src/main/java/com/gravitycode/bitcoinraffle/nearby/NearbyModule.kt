@@ -21,9 +21,6 @@ object NearbyModule {
         return Nearby.getConnectionsClient(context)
     }
 
-    /**
-     * TODO: Should this be making use of @Binds?
-     * */
     @Singleton
     @Provides
     fun provideDiscoverUsersService(
