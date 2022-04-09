@@ -3,7 +3,7 @@ package com.gravitycode.bitcoinraffle.users
 import android.content.SharedPreferences
 import com.google.common.base.Preconditions
 import com.gravitycode.bitcoinraffle.nearby.DiscoverUsersService
-import com.gravitycode.bitcoinraffle.util.Bitcoin
+import com.gravitycode.bitcoinraffle.bitcoin.Bitcoin
 import com.gravitycode.bitcoinraffle.util.StrictSharedPreferences
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

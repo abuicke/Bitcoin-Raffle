@@ -1,8 +1,9 @@
-package com.gravitycode.bitcoinraffle.util
+package com.gravitycode.bitcoinraffle.bitcoin
 
 import com.gravitycode.bitcoinraffle.BuildConfig
 import org.bitcoinj.core.Address
 import org.bitcoinj.core.AddressFormatException
+import org.bitcoinj.core.NetworkParameters
 import org.bitcoinj.params.MainNetParams
 import org.bitcoinj.params.RegTestParams
 import org.bitcoinj.params.TestNet3Params
@@ -12,21 +13,27 @@ import timber.log.Timber
 object Bitcoin {
 
     enum class NetworkType {
-        MAIN, REG, TEST, UNIT_TEST
+        MAIN {
+            override fun getNetworkParameters(): NetworkParameters = MainNetParams.get()
+        },
+        REG {
+            override fun getNetworkParameters(): NetworkParameters = RegTestParams.get()
+        },
+        TEST {
+            override fun getNetworkParameters(): NetworkParameters = TestNet3Params.get()
+        },
+        UNIT_TEST {
+            override fun getNetworkParameters(): NetworkParameters = UnitTestParams.get()
+        };
+
+        abstract fun getNetworkParameters(): NetworkParameters
     }
 
     fun isValidBtcWallet(
         address: String,
         networkType: NetworkType = if (BuildConfig.DEBUG) NetworkType.TEST else NetworkType.MAIN
     ): Boolean {
-
-        val networkParams = when (networkType) {
-            NetworkType.MAIN -> MainNetParams.get()
-            NetworkType.REG -> RegTestParams.get()
-            NetworkType.TEST -> TestNet3Params.get()
-            NetworkType.UNIT_TEST -> UnitTestParams.get()
-        }
-
+        val networkParams = networkType.getNetworkParameters()
         return try {
             Address.fromString(networkParams, address)
             true

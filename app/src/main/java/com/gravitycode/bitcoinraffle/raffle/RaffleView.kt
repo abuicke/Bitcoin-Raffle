@@ -4,18 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gravitycode.bitcoinraffle.R
-import com.gravitycode.bitcoinraffle.app.MainActivity
 import com.gravitycode.bitcoinraffle.users.User
 import com.gravitycode.bitcoinraffle.view.ActivityView
 import com.gravitycode.bitcoinraffle.view.IView
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
-import timber.log.Timber
 import javax.inject.Inject
 
 @ActivityScoped

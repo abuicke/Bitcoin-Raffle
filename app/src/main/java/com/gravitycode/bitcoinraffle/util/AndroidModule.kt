@@ -1,4 +1,4 @@
-package com.gravitycode.bitcoinraffle.app
+package com.gravitycode.bitcoinraffle.util
 
 import android.content.Context
 import android.content.SharedPreferences
