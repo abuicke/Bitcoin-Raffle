@@ -130,15 +130,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(raffleView)
     }
 
+    /**
+     * Must be called in OnCreate.
+     * @see repeatOnLifecycle for further explanation, i.e.
+     * "The best practice is to call this function when
+     * the lifecycle is initialized. For example, onCreate
+     * in an Activity, or onViewCreated in a Fragment."
+     * */
     fun watchRaffle(raffleView: RaffleView) {
-        /**
-         * TODO: This job should be cancelled when the raffle has finished
-         * */
         var raffleJob: Job? = null
         raffleJob = lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 raffleViewModel.uiState.collect { raffleUiState ->
-                    raffleView.displayUsers(raffleUiState.users)
+                    if (raffleUiState.winner == null) {
+                        raffleView.displayUsers(raffleUiState.users)
+                    } else {
+                        raffleJob!!.cancel()
+                    }
                 }
             }
         }
