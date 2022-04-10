@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 
 /**
  * Functions incomplete. Add as necessary.
+ *
  * @see SharedPreferences
  * */
 class StrictSharedPreferences(private val sharedPreferences: SharedPreferences) {
