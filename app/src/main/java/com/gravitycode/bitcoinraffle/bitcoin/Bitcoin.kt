@@ -12,6 +12,15 @@ import timber.log.Timber
 
 object Bitcoin {
 
+    /**
+     * There are multiple separate, independent Bitcoin networks.
+     *
+     * Each network has its own genesis block, its own port number and its own address prefix bytes
+     * to prevent you accidentally trying to send coins across networks (which won’t work). These
+     * facts are encapsulated into a [NetworkParameters] singleton object. As you can see, each
+     * network has its own class and you fetch the relevant [NetworkParameters] object by calling
+     * `get()` on one of those objects.
+     * */
     enum class NetworkType {
         /**
          * The main or “production” network where people buy and sell things.
