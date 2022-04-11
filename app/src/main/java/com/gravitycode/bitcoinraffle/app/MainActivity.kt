@@ -15,6 +15,7 @@ import com.gravitycode.bitcoinraffle.login.LoginViewModel
 import com.gravitycode.bitcoinraffle.raffle.Raffle
 import com.gravitycode.bitcoinraffle.raffle.RaffleView
 import com.gravitycode.bitcoinraffle.raffle.RaffleViewModel
+import com.gravitycode.bitcoinraffle.util.showToast
 import com.gravitycode.bitcoinraffle.view.IView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -60,8 +61,12 @@ class MainActivity : AppCompatActivity() {
         super.setContentView(contentView)
     }
 
-    fun displayError(errMsg: String) {
-        Toast.makeText(baseContext, errMsg, Toast.LENGTH_LONG).show()
+    fun displayMessage(msg: CharSequence) {
+        showToast(msg)
+    }
+
+    fun displayError(errMsg: CharSequence) {
+        showToast(errMsg)
     }
 
     fun showLoginView() {
@@ -144,9 +149,9 @@ class MainActivity : AppCompatActivity() {
         raffleJob = lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 raffleViewModel.uiState.collect { raffleUiState ->
-                    if (raffleUiState.winner == null) {
-                        raffleView.displayUsers(raffleUiState.users)
-                    } else {
+                    raffleView.displayUsers(raffleUiState.users)
+                    if (raffleUiState.winner != null) {
+                        displayMessage("Winner! ${raffleUiState.winner!!.name}")
                         raffleJob!!.cancel()
                     }
                 }
