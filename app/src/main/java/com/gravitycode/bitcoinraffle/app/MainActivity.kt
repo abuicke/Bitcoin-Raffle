@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.gravitycode.bitcoinraffle.bitcoin.Bitcoin
 import com.gravitycode.bitcoinraffle.login.GetLoginStateUseCase
 import com.gravitycode.bitcoinraffle.login.Login
 import com.gravitycode.bitcoinraffle.login.LoginView
@@ -14,15 +15,17 @@ import com.gravitycode.bitcoinraffle.login.LoginViewModel
 import com.gravitycode.bitcoinraffle.raffle.Raffle
 import com.gravitycode.bitcoinraffle.raffle.RaffleView
 import com.gravitycode.bitcoinraffle.raffle.RaffleViewModel
+import com.gravitycode.bitcoinraffle.util.showToast
 import com.gravitycode.bitcoinraffle.view.IView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.bitcoinj.utils.BriefLogFormatter
 import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Since ACCESS_FINE_LOCATION, BLUETOOTH_ADVERTISE, BLUETOOTH_CONNECT, BLUETOOTH_SCAN and
+ * TODO: Since ACCESS_FINE_LOCATION, BLUETOOTH_ADVERTISE, BLUETOOTH_CONNECT, BLUETOOTH_SCAN and
  * READ_EXTERNAL_STORAGE are considered to be dangerous system permissions, in addition to
  * adding them to your manifest, you must request these permissions at runtime, as described
  * in Requesting Permissions. https://developer.android.com/training/permissions/requesting.html
@@ -58,8 +61,12 @@ class MainActivity : AppCompatActivity() {
         super.setContentView(contentView)
     }
 
-    fun displayError(errMsg: String) {
-        Toast.makeText(baseContext, errMsg, Toast.LENGTH_LONG).show()
+    fun displayMessage(msg: CharSequence) {
+        showToast(msg)
+    }
+
+    fun displayError(errMsg: CharSequence) {
+        showToast(errMsg)
     }
 
     fun showLoginView() {
@@ -77,11 +84,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Must be called in OnCreate.
-     * @see repeatOnLifecycle for further explanation, i.e.
-     * "The best practice is to call this function when
-     * the lifecycle is initialized. For example, onCreate
-     * in an Activity, or onViewCreated in a Fragment."
+     * Must be called in [onCreate].
+     *
+     * @see repeatOnLifecycle for further explanation, i.e. "The best practice is to call this
+     * function when the lifecycle is initialized. For example, [android.app.Activity.onCreate]
+     * in an Activity, or [androidx.fragment.app.Fragment.onViewCreated] in a Fragment."
      * */
     fun waitForLogin() {
         var loginJob: Job? = null
@@ -131,20 +138,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Must be called in OnCreate.
-     * @see repeatOnLifecycle for further explanation, i.e.
-     * "The best practice is to call this function when
-     * the lifecycle is initialized. For example, onCreate
-     * in an Activity, or onViewCreated in a Fragment."
+     * Must be called in [onCreate].
+     *
+     * @see repeatOnLifecycle for further explanation, i.e. "The best practice is to call this
+     * function when the lifecycle is initialized. For example, [android.app.Activity.onCreate]
+     * in an Activity, or [androidx.fragment.app.Fragment.onViewCreated] in a Fragment."
      * */
     fun watchRaffle(raffleView: RaffleView) {
         var raffleJob: Job? = null
         raffleJob = lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 raffleViewModel.uiState.collect { raffleUiState ->
-                    if (raffleUiState.winner == null) {
-                        raffleView.displayUsers(raffleUiState.users)
-                    } else {
+                    raffleView.displayUsers(raffleUiState.users)
+                    if (raffleUiState.winner != null) {
+                        displayMessage("Winner! ${raffleUiState.winner!!.name}")
                         raffleJob!!.cancel()
                     }
                 }

@@ -32,6 +32,10 @@ class RaffleViewModel @Inject constructor(
                     allUsers.shuffle()
                     delay(5000)
                     _uiState.value = RaffleUiState(allUsers.toList())
+
+                    if (allUsers.size > 3) {
+                        _uiState.value = RaffleUiState(allUsers, allUsers.first())
+                    }
                 }
             })
         }

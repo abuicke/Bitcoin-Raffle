@@ -34,7 +34,7 @@ class UsersRepository @Inject constructor(
     }
 
     /**
-     * @return null if no user is logged in.
+     * @return `null` if no user is logged in.
      * */
     fun getLoggedInUser(): User? = loggedInUser
 

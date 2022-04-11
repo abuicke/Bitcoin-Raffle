@@ -41,10 +41,10 @@ class UserRecyclerViewAdapter(
     fun setUsers(users: List<User>) {
         this.users = users
         /**
-         * This event does not specify what about the data set has changed,
-         * forcing any observers to assume that all existing items and
-         * structure may no longer be valid. LayoutManagers will be forced
-         * to fully rebind and relayout all visible views.
+         * > This event does not specify what about the data set has changed,
+         * > forcing any observers to assume that all existing items and
+         * > structure may no longer be valid. LayoutManagers will be forced
+         * > to fully rebind and relayout all visible views.
          * */
         notifyDataSetChanged()
     }
