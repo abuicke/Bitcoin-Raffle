@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        watchRaffle(raffleView)
+        watchRaffle()
         setContentView(raffleView)
     }
 
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
      * function when the lifecycle is initialized. For example, [android.app.Activity.onCreate]
      * in an Activity, or [androidx.fragment.app.Fragment.onViewCreated] in a Fragment."
      * */
-    fun watchRaffle(raffleView: RaffleView) {
+    fun watchRaffle() {
         var raffleJob: Job? = null
         raffleJob = lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
