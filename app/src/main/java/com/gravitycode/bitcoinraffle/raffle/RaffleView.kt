@@ -27,7 +27,7 @@ class RaffleView @Inject constructor(
     private val _contentView: View = inflater.inflate(R.layout.raffle_view, parent.content, false)
     private var _eventListener: ((RaffleViewEvent) -> Unit)? = null
 
-    private val searchButton: View = _contentView.findViewById(R.id.img_search)
+    private val searchButton: View = _contentView.findViewById(R.id.btn_search_for_raffle)
     private val recyclerView: RecyclerView = _contentView.findViewById(R.id.recycler_view_users)
     private val usersRecyclerAdapter: UserRecyclerViewAdapter = UserRecyclerViewAdapter(picasso)
 
