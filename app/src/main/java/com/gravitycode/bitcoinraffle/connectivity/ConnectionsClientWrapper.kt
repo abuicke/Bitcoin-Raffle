@@ -1,8 +1,12 @@
-package com.gravitycode.bitcoinraffle.nearby
+package com.gravitycode.bitcoinraffle.connectivity
 
 import android.content.Context
-import android.widget.Toast
-import com.google.android.gms.nearby.connection.*
+import com.google.android.gms.nearby.connection.AdvertisingOptions
+import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback
+import com.google.android.gms.nearby.connection.ConnectionsClient
+import com.google.android.gms.nearby.connection.DiscoveryOptions
+import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback
+import com.google.android.gms.nearby.connection.Strategy
 import com.google.android.gms.tasks.Task
 
 internal class ConnectionsClientWrapper(

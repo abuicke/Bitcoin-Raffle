@@ -1,26 +1,24 @@
 package com.gravitycode.bitcoinraffle.app
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.gravitycode.bitcoinraffle.bitcoin.Bitcoin
-import com.gravitycode.bitcoinraffle.login.GetLoginStateUseCase
 import com.gravitycode.bitcoinraffle.login.Login
 import com.gravitycode.bitcoinraffle.login.LoginView
 import com.gravitycode.bitcoinraffle.login.LoginViewModel
 import com.gravitycode.bitcoinraffle.raffle.Raffle
 import com.gravitycode.bitcoinraffle.raffle.RaffleView
 import com.gravitycode.bitcoinraffle.raffle.RaffleViewModel
+import com.gravitycode.bitcoinraffle.users.User
+import com.gravitycode.bitcoinraffle.users.UsersRepository
 import com.gravitycode.bitcoinraffle.util.showToast
 import com.gravitycode.bitcoinraffle.view.IView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.bitcoinj.utils.BriefLogFormatter
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -42,23 +40,29 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var loginView: LoginView
     @Inject lateinit var raffleView: RaffleView
 
-    @Inject lateinit var getLoginStateUseCase: GetLoginStateUseCase
+    @Inject lateinit var usersRepository: UsersRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val loginState = getLoginStateUseCase()
+        val loggedInUser: User? = usersRepository.getLoggedInUser()
 
-        if (loginState == Login.LOGGED_IN) {
+        if (loggedInUser != null) {
             showRaffleView()
+            setToolbarTitle(loggedInUser.btcWalletAddress)
         } else {
             showLoginView()
         }
     }
 
-    fun setContentView(iView: IView<out Any>) {
-        val contentView = iView.getContentView()
-        super.setContentView(contentView)
+    fun setView(iView: IView<out Any>) {
+        setContentView(iView.contentView)
+        setSupportActionBar(iView.toolbar)
+    }
+
+    fun setToolbarTitle(title: CharSequence) {
+        checkNotNull(supportActionBar)
+        supportActionBar!!.title = title
     }
 
     fun displayMessage(msg: CharSequence) {
@@ -70,17 +74,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showLoginView() {
-        /**
-         * TODO: This initialization should take place once outside of the `show` logic?
-         * */
         loginView.setEventListener { loginViewEvent ->
             val name = loginViewEvent.name
             val btcAddress = loginViewEvent.btcAddress
             loginViewModel.login(name, btcAddress)
         }
 
-        waitForLogin()
-        setContentView(loginView)
+        awaitLogin()
+        setView(loginView)
     }
 
     /**
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity() {
      * function when the lifecycle is initialized. For example, [android.app.Activity.onCreate]
      * in an Activity, or [androidx.fragment.app.Fragment.onViewCreated] in a Fragment."
      * */
-    fun waitForLogin() {
+    fun awaitLogin() {
         var loginJob: Job? = null
         loginJob = lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -123,9 +124,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showRaffleView() {
-        /**
-         * TODO: This initialization should take place once outside of the `show` logic?
-         * */
         raffleView.setEventListener { raffleViewEvent ->
             when (raffleViewEvent.raffle) {
                 Raffle.STARTED -> raffleViewModel.startRaffle()
@@ -134,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         watchRaffle()
-        setContentView(raffleView)
+        setView(raffleView)
     }
 
     /**

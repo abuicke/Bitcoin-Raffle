@@ -1,18 +1,17 @@
 package com.gravitycode.bitcoinraffle.bitcoin
 
+/**
+ * TODO: Remove these imports if the KDoc remains the only code that uses them.
+ * */
+
 import com.gravitycode.bitcoinraffle.BuildConfig
+import org.bitcoinj.core.*
 import org.bitcoinj.params.MainNetParams
 import org.bitcoinj.params.RegTestParams
 import org.bitcoinj.params.TestNet3Params
 import org.bitcoinj.params.UnitTestParams
-
-/**
- * TODO: Remove these imports if the KDoc remains the only code that uses them.
- * */
-import org.bitcoinj.core.*
 import org.bitcoinj.store.BlockStore
 import org.bitcoinj.wallet.Wallet
-
 import timber.log.Timber
 
 /**

@@ -1,11 +1,13 @@
 package com.gravitycode.bitcoinraffle.view
 
 import android.view.View
-import kotlinx.coroutines.flow.StateFlow
+import androidx.appcompat.widget.Toolbar
 
 interface IView<T> {
 
-    fun getContentView(): View
+    val contentView: View
+
+    val toolbar: Toolbar?
 
     fun setEventListener(listener: (T) -> Unit)
 }

@@ -1,9 +1,8 @@
-package com.gravitycode.bitcoinraffle.nearby
+package com.gravitycode.bitcoinraffle.connectivity
 
 import android.content.Context
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.ConnectionsClient
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NearbyModule {
+object ConnectionModule {
 
     @Singleton
     @Provides

@@ -1,4 +1,4 @@
-package com.gravitycode.bitcoinraffle.nearby
+package com.gravitycode.bitcoinraffle.connectivity
 
 import android.content.Context
 import com.google.android.gms.nearby.connection.ConnectionsClient
@@ -9,7 +9,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
-import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 

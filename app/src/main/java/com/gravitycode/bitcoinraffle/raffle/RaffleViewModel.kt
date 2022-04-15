@@ -2,14 +2,15 @@ package com.gravitycode.bitcoinraffle.raffle
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gravitycode.bitcoinraffle.users.UsersRepository
 import com.gravitycode.bitcoinraffle.users.User
+import com.gravitycode.bitcoinraffle.users.UsersRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
