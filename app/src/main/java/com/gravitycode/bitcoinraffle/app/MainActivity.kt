@@ -55,8 +55,8 @@ import javax.inject.Inject
  * If the user does not grant all required permissions for the Strategy you plan to use, the
  * Nearby Connections API will refuse to allow your app to start advertising or discovering.
  * */
-@Suppress("MemberVisibilityCanBePrivate")
 @AndroidEntryPoint
+@Suppress("MemberVisibilityCanBePrivate")
 class MainActivity : AppCompatActivity() {
 
     private val loginViewModel: LoginViewModel by viewModels()
@@ -70,11 +70,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val loggedInUser: User? = usersRepository.getLoggedInUser()
+        val loggedInUser: User? = getLoggedInUser()
 
         if (loggedInUser != null) {
             showRaffleView()
-            setToolbarTitle(loggedInUser.btcWalletAddress)
         } else {
             showLoginView()
         }
@@ -85,17 +84,16 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(iView.toolbar)
     }
 
-    fun setToolbarTitle(title: CharSequence) {
-        checkNotNull(supportActionBar)
-        supportActionBar!!.title = title
-    }
-
     fun displayMessage(msg: CharSequence) {
         showToast(msg)
     }
 
     fun displayError(errMsg: CharSequence) {
         showToast(errMsg)
+    }
+
+    fun getLoggedInUser(): User? {
+        return usersRepository.getLoggedInUser()
     }
 
     fun showLoginView() {
