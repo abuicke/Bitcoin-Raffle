@@ -7,6 +7,10 @@
         <item>@font/carter_one</item>
         <item>@font/cherry_cream_soda</item>
         <item>@font/kaushan_script</item>
+        <item>@font/major_mono_display</item>
         <item>@font/press_start_2p</item>
+        <item>@font/space_mono</item>
+        <item>@font/syne_mono</item>
+        <item>@font/vt323</item>
     </array>
 </resources>
