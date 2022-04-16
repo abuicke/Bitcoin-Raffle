@@ -154,6 +154,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val loggedInUser: User? = getLoggedInUser()
+        // A logged in user should be present by the time RaffleView is visible.
+        raffleView.setLoggedInUser(loggedInUser!!)
+
         watchRaffle()
         setView(raffleView)
     }

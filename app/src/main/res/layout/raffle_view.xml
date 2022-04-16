@@ -17,7 +17,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        tools:text="2MuUL489qeTWB9KSqbWnVLP1oU2V5AUGwHa" />
+        app:titleTextAppearance="@style/raffle_view_toolbar_style"
+        app:titleTextColor="@color/white"
+        tools:title="2MuUL489qeTWB9KSqbWnVLP1oU2V5AUGwHa" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_users"

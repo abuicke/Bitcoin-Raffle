@@ -55,6 +55,10 @@ class RaffleView @Inject constructor(
         _eventListener = listener
     }
 
+    fun setLoggedInUser(user: User) {
+        toolbar.title = user.btcWalletAddress
+    }
+
     fun displayUsers(users: List<User>) {
         usersRecyclerAdapter.setUsers(users)
     }
