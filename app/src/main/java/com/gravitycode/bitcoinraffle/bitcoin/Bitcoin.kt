@@ -3,7 +3,6 @@ package com.gravitycode.bitcoinraffle.bitcoin
 /**
  * TODO: Remove these imports if the KDoc remains the only code that uses them.
  * */
-
 import com.gravitycode.bitcoinraffle.BuildConfig
 import org.bitcoinj.core.*
 import org.bitcoinj.params.MainNetParams

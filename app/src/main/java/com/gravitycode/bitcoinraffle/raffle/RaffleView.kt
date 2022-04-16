@@ -26,7 +26,9 @@ class RaffleView @Inject constructor(
     override val contentView: View = inflater.inflate(R.layout.raffle_view, parent.content, false)
     override val toolbar: Toolbar = contentView.findViewById(R.id.toolbar)
 
+    private val startButton: View = contentView.findViewById(R.id.btn_start_raffle)
     private val searchButton: View = contentView.findViewById(R.id.btn_search_for_raffle)
+    private val walletButton: View = contentView.findViewById(R.id.btn_wallet)
     private val recyclerView: RecyclerView = contentView.findViewById(R.id.recycler_view_users)
     private val usersRecyclerAdapter: UserRecyclerViewAdapter = UserRecyclerViewAdapter(picasso)
 
