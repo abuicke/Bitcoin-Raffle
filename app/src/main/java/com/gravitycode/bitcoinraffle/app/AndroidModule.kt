@@ -1,8 +1,7 @@
-package com.gravitycode.bitcoinraffle.util
+package com.gravitycode.bitcoinraffle.app
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.view.LayoutInflater
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,9 +1,9 @@
 package com.gravitycode.bitcoinraffle.raffle
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gravitycode.bitcoinraffle.R
@@ -23,13 +23,16 @@ class RaffleView @Inject constructor(
     picasso: Picasso
 ) : IView<RaffleViewEvent> {
 
-    @SuppressLint("InflateParams")
-    private val _contentView: View = inflater.inflate(R.layout.raffle_view, parent.content, false)
-    private var _eventListener: ((RaffleViewEvent) -> Unit)? = null
+    override val contentView: View = inflater.inflate(R.layout.raffle_view, parent.content, false)
+    override val toolbar: Toolbar = contentView.findViewById(R.id.toolbar)
 
-    private val searchButton: View = _contentView.findViewById(R.id.img_search)
-    private val recyclerView: RecyclerView = _contentView.findViewById(R.id.recycler_view_users)
+    private val startButton: View = contentView.findViewById(R.id.btn_start_raffle)
+    private val searchButton: View = contentView.findViewById(R.id.btn_search_for_raffle)
+    private val walletButton: View = contentView.findViewById(R.id.btn_wallet)
+    private val recyclerView: RecyclerView = contentView.findViewById(R.id.recycler_view_users)
     private val usersRecyclerAdapter: UserRecyclerViewAdapter = UserRecyclerViewAdapter(picasso)
+
+    private var _eventListener: ((RaffleViewEvent) -> Unit)? = null
 
     init {
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -48,10 +51,12 @@ class RaffleView @Inject constructor(
         }
     }
 
-    override fun getContentView(): View = _contentView
-
     override fun setEventListener(listener: (RaffleViewEvent) -> Unit) {
         _eventListener = listener
+    }
+
+    fun setLoggedInUser(user: User) {
+        toolbar.title = user.btcWalletAddress
     }
 
     fun displayUsers(users: List<User>) {

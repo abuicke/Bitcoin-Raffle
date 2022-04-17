@@ -1,11 +1,13 @@
 package com.gravitycode.bitcoinraffle.users
 
 import android.content.SharedPreferences
-import com.google.common.base.Preconditions
-import com.gravitycode.bitcoinraffle.nearby.DiscoverUsersService
+import com.google.common.base.Preconditions.checkState
 import com.gravitycode.bitcoinraffle.bitcoin.Bitcoin
+import com.gravitycode.bitcoinraffle.connectivity.DiscoverUsersService
 import com.gravitycode.bitcoinraffle.util.StrictSharedPreferences
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.merge
 import javax.inject.Inject
 
 class UsersRepository @Inject constructor(
@@ -62,7 +64,7 @@ class UsersRepository @Inject constructor(
      * @throws IllegalStateException if a logged in user hasn't been set
      * */
     fun getAllUsers(): Flow<User> {
-        Preconditions.checkState(
+        checkState(
             loggedInUser != null,
             "Current user must be logged in. " +
                     "Use ${javaClass.canonicalName}.setLoggedInUser(User) to set the current user."

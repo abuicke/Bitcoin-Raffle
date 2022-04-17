@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".app.MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextAppearance="@style/raffle_view_toolbar_style"
+        app:titleTextColor="@color/white"
+        tools:title="2MuUL489qeTWB9KSqbWnVLP1oU2V5AUGwHa" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_users"
         android:layout_width="match_parent"
@@ -13,30 +28,76 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:visibility="invisible" />
 
-    <ImageView
-        android:id="@+id/img_search"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/light_gray"
-        android:contentDescription="@string/content_description_search_button"
-        android:src="@android:drawable/ic_menu_search"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_field_wrapper_btc_stake"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="80dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/txt_search_raffle"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_field_btc_stake"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:hint="@string/stake"
+            android:inputType="numberDecimal"
+            android:text="@string/_0_000"
+            android:textSize="30sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_marginHorizontal="30dp"-->
+    <!--        android:src="@android:drawable/ic_dialog_info"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/text_field_wrapper_btc_stake"-->
+    <!--        app:layout_constraintRight_toRightOf="@id/text_field_wrapper_btc_stake"-->
+    <!--        app:layout_constraintTop_toTopOf="@id/text_field_wrapper_btc_stake" />-->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_start_raffle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:fontFamily="@font/press_start_2p"
+        android:text="@string/start_raffle"
+        app:layout_constraintLeft_toLeftOf="@id/text_field_wrapper_btc_stake"
+        app:layout_constraintTop_toBottomOf="@id/text_field_wrapper_btc_stake" />
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:src="@android:drawable/ic_menu_search"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/btn_search_for_raffle"-->
+    <!--        app:layout_constraintLeft_toLeftOf="@id/btn_start_raffle"-->
+    <!--        app:layout_constraintRight_toRightOf="@id/btn_start_raffle"-->
+    <!--        app:layout_constraintTop_toTopOf="@id/btn_search_for_raffle" />-->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_search_for_raffle"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="12dp"
         android:text="@string/search_for_raffle"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_search" />
+        android:textSize="22sp"
+        app:layout_constraintLeft_toRightOf="@id/btn_start_raffle"
+        app:layout_constraintRight_toRightOf="@id/text_field_wrapper_btc_stake"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_raffle" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_wallet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/wallet"
+        app:layout_constraintLeft_toLeftOf="@id/btn_start_raffle"
+        app:layout_constraintRight_toRightOf="@id/btn_search_for_raffle"
+        app:layout_constraintTop_toBottomOf="@id/btn_search_for_raffle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

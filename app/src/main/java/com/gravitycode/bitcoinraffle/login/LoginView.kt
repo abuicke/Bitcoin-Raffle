@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.widget.Toolbar
 import com.gravitycode.bitcoinraffle.R
 import com.gravitycode.bitcoinraffle.view.ActivityView
 import com.gravitycode.bitcoinraffle.view.IView
@@ -16,12 +17,14 @@ class LoginView @Inject constructor(
     parent: ActivityView
 ) : IView<LoginViewEvent> {
 
-    private val _contentView: View = inflater.inflate(R.layout.login_view, parent.content, false)
-    private var _eventListener: ((LoginViewEvent) -> Unit)? = null
+    override val contentView: View = inflater.inflate(R.layout.login_view, parent.content, false)
+    override val toolbar: Toolbar? = null
 
-    private val nameField: EditText = _contentView.findViewById(R.id.text_field_name)
-    private val btcAddressField: EditText = _contentView.findViewById(R.id.text_field_btc_address)
-    private val enterButton: Button = _contentView.findViewById(R.id.btn_enter)
+    private val nameField: EditText = contentView.findViewById(R.id.text_field_name)
+    private val btcAddressField: EditText = contentView.findViewById(R.id.text_field_btc_address)
+    private val enterButton: Button = contentView.findViewById(R.id.btn_enter)
+
+    private var _eventListener: ((LoginViewEvent) -> Unit)? = null
 
     init {
         enterButton.setOnClickListener {
@@ -37,8 +40,6 @@ class LoginView @Inject constructor(
             }
         }
     }
-
-    override fun getContentView(): View = _contentView
 
     override fun setEventListener(listener: (LoginViewEvent) -> Unit) {
         _eventListener = listener

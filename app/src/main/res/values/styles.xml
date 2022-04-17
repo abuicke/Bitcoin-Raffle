@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="raffle_view_toolbar_style">
+        <item name="android:textSize">28sp</item>
+        <item name="android:fontFamily">@font/major_mono_display</item>
+    </style>
+</resources>
