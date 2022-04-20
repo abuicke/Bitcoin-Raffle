@@ -41,7 +41,7 @@ class RaffleView @Inject constructor(
         searchButton.setOnClickListener {
             if (_eventListener != null) {
                 val raffleViewEvent = RaffleViewEvent(Raffle.STARTED)
-                _eventListener!!.invoke(raffleViewEvent)
+                _eventListener!!(raffleViewEvent)
                 searchButton.visibility = View.GONE
             } else {
                 throw IllegalStateException(

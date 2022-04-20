@@ -32,7 +32,7 @@ class LoginView @Inject constructor(
                 val name = nameField.text.toString()
                 val btcAddress = btcAddressField.text.toString()
                 val loginViewEvent = LoginViewEvent(name, btcAddress)
-                _eventListener!!.invoke(loginViewEvent)
+                _eventListener!!(loginViewEvent)
             } else {
                 throw IllegalStateException(
                     "No event listener set for {${javaClass.canonicalName}}"
